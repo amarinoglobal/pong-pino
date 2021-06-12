@@ -1,9 +1,9 @@
 canvasPongpino.init();
-window.onload = () => {
-  document.getElementById('start-button').onclick = () => {
-    // canvasRacingCar.startGame(); Función que activa obstaculos.
-  };
+// window.onload = () => {
+//   document.getElementById('start-button').onclick = () => {
+//     // canvasRacingCar.startGame(); Función que activa obstaculos.
+//   };
 
-  function startGame() { }
-};
+//   function startGame() { }
+// };
 
