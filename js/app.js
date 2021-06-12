@@ -1,16 +1,16 @@
-const canvasRacingCar = {
-    name: 'Canvas racing car app',
-    description: 'Canvas racing car app',
+const canvasPongpino = {
+    name: 'Pong-pino app',
+    description: 'Canvas breakout 4 sides app',
     version: '1.0.0',
-    author: 'Alexander Marino',
+    author: 'Alexander Marino & Samuel Gallego',
     license: undefined,
     repository: undefined,
     ctx: undefined,
     canvasDOM: undefined,
-    car: undefined,
-    car2: undefined,
-    car3: undefined,
-    car4: undefined,
+    base1: undefined,
+    base2: undefined,
+    base3: undefined,
+    base4: undefined,
     canvasSize: { w: undefined, h: undefined },
     init() {
         this.setContext()
@@ -30,18 +30,18 @@ const canvasRacingCar = {
     },
     setListeners() {
         document.onkeyup = e => {
-            e.key === 'ArrowLeft' ? this.car.moveLeft() : null
-            e.key === 'ArrowRight' ? this.car.moveRight() : null
-            e.key === 'ArrowLeft' ? this.car2.moveLeft() : null
-            e.key === 'ArrowRight' ? this.car2.moveRight() : null
-            e.key === 'ArrowUp' ? this.car3.moveLeft() : null
-            e.key === 'ArrowDown' ? this.car3.moveRight() : null
-            e.key === 'ArrowUp' ? this.car4.moveLeft() : null
-            e.key === 'ArrowDown' ? this.car4.moveRight() : null
+            e.key === 'ArrowLeft' ? this.base1.moveLeft() : null
+            e.key === 'ArrowRight' ? this.base1.moveRight() : null
+            e.key === 'ArrowUp' ? this.base2.moveUp() : null
+            e.key === 'ArrowDown' ? this.base2.moveDown() : null
+            e.key === 'ArrowLeft' ? this.base3.moveLeft() : null
+            e.key === 'ArrowRight' ? this.base3.moveRight() : null
+            e.key === 'ArrowUp' ? this.base4.moveUp() : null
+            e.key === 'ArrowDown' ? this.base4.moveDown() : null
         }
     },
     start() {
-        this.createcar()
+        this.createbase()
         this.setListeners()
 
         setInterval(() => {
@@ -51,11 +51,11 @@ const canvasRacingCar = {
     },
 
 
-    createcar() {
-        this.car = new car(this.ctx, (this.canvasSize.w / 2) - 65, this.canvasSize.h - 60, 130, 34, 'car.png')
-        this.car2 = new car(this.ctx, (this.canvasSize.w / 2) - 65, 20, 130, 34, 'car.png')
-        this.car3 = new car2(this.ctx, 65, (this.canvasSize.h / 2) - 65, 34, 130, 'car3.png')
-        this.car4 = new car2(this.ctx, this.canvasSize.w - 65, (this.canvasSize.h / 2) - 65, 34, 130, 'car2.png')
+    createbase() {
+        this.base1 = new base1(this.ctx, (this.canvasSize.w / 2) - 65, this.canvasSize.h - 60, 130, 34, 'base1.png')
+        this.base2 = new base2(this.ctx, 20, (this.canvasSize.h / 2) - 65, 34, 130, 'base2.png')
+        this.base3 = new base3(this.ctx, (this.canvasSize.w / 2) - 65, 20, 130, 34, 'base3.png')
+        this.base4 = new base4(this.ctx, this.canvasSize.w - 65, (this.canvasSize.h / 2) - 65, 34, 130, 'base4.png')
     },
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
@@ -78,22 +78,22 @@ const canvasRacingCar = {
         // this.ctx.moveTo(250, 700);
         // this.ctx.lineTo(250, 0);
         // this.ctx.stroke();
-        this.car.draw()
-        this.car2.draw()
-        this.car3.draw()
-        this.car4.draw()
+        this.base1.draw()
+        this.base2.draw()
+        this.base3.draw()
+        this.base4.draw()
     }
 }
 
 
 
-class car {
+class base1 {
 
-    constructor(ctx, carPosX, carPosY, carWidth, carHeight, carImg) {
+    constructor(ctx, basePosX, basePosY, baseWidth, baseHeight, baseImg) {
         this.ctx = ctx
-        this.carPos = { x: carPosX, y: carPosY }
-        this.carSize = { w: carWidth, h: carHeight }
-        this.carImage = carImg
+        this.basePos = { x: basePosX, y: basePosY }
+        this.baseSize = { w: baseWidth, h: baseHeight }
+        this.baseImage = baseImg
         this.imageInstance = undefined
 
         this.init()
@@ -101,31 +101,31 @@ class car {
 
     init() {
         this.imageInstance = new Image()
-        this.imageInstance.src = `images/car.png`
+        this.imageInstance.src = `images/base1.png`
 
 
     }
 
     draw() {
-        this.ctx.drawImage(this.imageInstance, this.carPos.x, this.carPos.y, this.carSize.w, this.carSize.h)
+        this.ctx.drawImage(this.imageInstance, this.basePos.x, this.basePos.y, this.baseSize.w, this.baseSize.h)
     }
 
     moveLeft() {
-        this.carPos.x -= 50
+        this.basePos.x -= 50
     }
 
     moveRight() {
-        this.carPos.x += 50
+        this.basePos.x += 50
     }
 }
 
-class car2 {
+class base2 {
 
-    constructor(ctx, carPosX, carPosY, carWidth, carHeight, carImg) {
+    constructor(ctx, basePosX, basePosY, baseWidth, baseHeight, baseImg) {
         this.ctx = ctx
-        this.carPos = { x: carPosX, y: carPosY }
-        this.carSize = { w: carWidth, h: carHeight }
-        this.carImage = carImg
+        this.basePos = { x: basePosX, y: basePosY }
+        this.baseSize = { w: baseWidth, h: baseHeight }
+        this.baseImage = baseImg
         this.imageInstance = undefined
 
         this.init()
@@ -133,19 +133,83 @@ class car2 {
 
     init() {
         this.imageInstance = new Image()
-        this.imageInstance.src = `images/car2.png`
+        this.imageInstance.src = `images/base2.png`
 
     }
 
     draw() {
-        this.ctx.drawImage(this.imageInstance, this.carPos.x, this.carPos.y, this.carSize.w, this.carSize.h)
+        this.ctx.drawImage(this.imageInstance, this.basePos.x, this.basePos.y, this.baseSize.w, this.baseSize.h)
+    }
+
+    moveUp() {
+        this.basePos.y -= 50
+    }
+
+    moveDown() {
+        this.basePos.y += 50
+    }
+}
+
+class base3 {
+
+    constructor(ctx, basePosX, basePosY, baseWidth, baseHeight, baseImg) {
+        this.ctx = ctx
+        this.basePos = { x: basePosX, y: basePosY }
+        this.baseSize = { w: baseWidth, h: baseHeight }
+        this.baseImage = baseImg
+        this.imageInstance = undefined
+
+        this.init()
+    }
+
+    init() {
+        this.imageInstance = new Image()
+        this.imageInstance.src = `images/base3.png`
+
+
+    }
+
+    draw() {
+        this.ctx.drawImage(this.imageInstance, this.basePos.x, this.basePos.y, this.baseSize.w, this.baseSize.h)
     }
 
     moveLeft() {
-        this.carPos.y -= 50
+        this.basePos.x -= 50
     }
 
     moveRight() {
-        this.carPos.y += 50
+        this.basePos.x += 50
     }
+}
+class base4 {
+
+    constructor(ctx, basePosX, basePosY, baseWidth, baseHeight, baseImg) {
+        this.ctx = ctx
+        this.basePos = { x: basePosX, y: basePosY }
+        this.baseSize = { w: baseWidth, h: baseHeight }
+        this.baseImage = baseImg
+        this.imageInstance = undefined
+
+        this.init()
+    }
+
+    init() {
+        this.imageInstance = new Image()
+        this.imageInstance.src = `images/base4.png`
+
+
+    }
+
+    draw() {
+        this.ctx.drawImage(this.imageInstance, this.basePos.x, this.basePos.y, this.baseSize.w, this.baseSize.h)
+    }
+
+    moveUp() {
+        this.basePos.y -= 50
+    }
+
+    moveDown() {
+        this.basePos.y += 50
+    }
+
 }
