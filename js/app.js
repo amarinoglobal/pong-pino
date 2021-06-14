@@ -12,11 +12,13 @@ const canvasPongpino = {
     base3: undefined,
     base4: undefined,
     box: [],
+    target: [],
     canvasSize: { w: undefined, h: undefined },
     init() {
         this.setContext()
         this.setDimensions()
         this.start()
+
     },
     setContext() {
         this.canvasDOM = document.querySelector('#canvas')
@@ -31,8 +33,8 @@ const canvasPongpino = {
     },
     setListeners() {
         document.onkeyup = e => {
-            e.key === '37' ? this.base1.moveLeft() : null
-            e.key === '39' ? this.base1.moveRight() : null
+            e.key === 'ArrowLeft' ? this.base1.moveLeft() : null
+            e.key === 'ArrowRight' ? this.base1.moveRight() : null
             e.key === 'ArrowUp' ? this.base2.moveUp() : null
             e.key === 'ArrowDown' ? this.base2.moveDown() : null
             e.key === 'ArrowLeft' ? this.base3.moveLeft() : null
@@ -53,17 +55,19 @@ const canvasPongpino = {
             this.clearScreen()
             this.drawAll()
             this.box.move()
+            this.colision()
 
-        }, 70)
+
+        }, 1000 / 90)
     },
 
 
     createbase() {
-        this.base1 = new base1(this.ctx, (this.canvasSize.w / 2) - 65, this.canvasSize.h - 60, 130, 34, 'base1.png')
-        this.base2 = new base2(this.ctx, 20, (this.canvasSize.h / 2) - 65, 34, 130, 'base2.png')
-        this.base3 = new base3(this.ctx, (this.canvasSize.w / 2) - 65, 20, 130, 34, 'base3.png')
-        this.base4 = new base4(this.ctx, this.canvasSize.w - 65, (this.canvasSize.h / 2) - 65, 34, 130, 'base4.png')
-        this.box = new Box(this.ctx, ((this.canvasSize.w - 20) / 2), 50, 30, 30, this.canvasSize, 'box.png')
+        this.base1 = new CreatorBase1(this.ctx, (this.canvasSize.w / 2) - 65, this.canvasSize.h - 60, 130, 34, 'base1.png')
+        this.base2 = new CreatorBase2(this.ctx, 20, (this.canvasSize.h / 2) - 65, 34, 130, 'base2.png')
+        this.base3 = new CreatorBase1(this.ctx, (this.canvasSize.w / 2) - 65, 20, 130, 34, 'base3.png')
+        this.base4 = new CreatorBase2(this.ctx, this.canvasSize.w - 65, (this.canvasSize.h / 2) - 65, 34, 130, 'base4.png')
+        this.box = new Box(this.ctx, 400, 30, 30, 30, this.canvasSize, 'ball.png')
     },
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
@@ -94,5 +98,58 @@ const canvasPongpino = {
         this.box.draw()
     },
 
+    colision() {
 
+
+        if (
+            (this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
+                this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
+                this.box.ballPos.x + this.box.ballSize.w < this.base1.base1Pos.x + this.base1.base1Size.w
+            ) ||
+
+            (this.box.ballPos.y < this.base3.base1Pos.y + this.base3.base1Size.h &&
+                this.box.ballPos.x + this.box.ballSize.w > this.base3.base1Pos.x &&
+                this.box.ballPos.x + this.box.ballSize.w < this.base3.base1Pos.x + this.base3.base1Size.w
+            )
+
+
+
+            // (this.box.ballPos.x + this.base3.base1Pos.x > this.base3.base1Pos.x &&
+            //     this.box.ballPos.y + this.box.ballSize.w > this.base3.base1Pos.y &&
+            //     this.box.ballPos.y < this.base3.basePos.y + this.base3.base1Size.w)
+
+
+        ) {
+            console.log('colision')
+            this.box.ballVel.y *= -1
+        }
+
+        if ((this.box.ballPos.x < this.base2.base2Pos.x + this.base2.base2Size.w &&
+            this.box.ballPos.y + this.box.ballSize.h > this.base2.base2Pos.y &&
+            this.box.ballPos.y + this.box.ballSize.h < this.base2.base2Pos.y + this.base2.base2Size.h
+        ) ||
+            (this.box.ballPos.x + this.box.ballSize.w > this.base4.base2Pos.x &&
+                this.box.ballPos.y + this.box.ballSize.h > this.base4.base2Pos.y &&
+                this.box.ballPos.y < this.base4.base2Pos.y + this.base4.base2Size.h
+            )
+
+
+        ) {
+            //this.ballPos.y >= this.canvasSize.h - this.ballSize.h ? this.ballVel.y *= -1 : null
+            //this.ballPos.x >= this.canvasSize.w - this.ballSize.w ? this.ballVel.x *= -1 : null
+            console.log('colision')
+            this.box.ballVel.x *= -1
+
+        }
+
+    }
 }
+
+//________________________________________________________________________________
+
+//Logica del if de las bases para la colisión
+/*         this.box.ballPos.x < this.base1.base1Pos.x + this.base1.base1Size.w &&
+           this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
+           this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
+           this.box.ballPos.y < this.base1.base1Pos.y + this.base1.baseSize.h*/
+//________________________________________________________________________________
