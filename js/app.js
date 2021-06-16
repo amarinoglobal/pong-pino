@@ -14,7 +14,9 @@ const canvasPongpino = {
     targets: [],
     box: [],
     block1: undefined,
+    framesCounter: 0,
     table:
+
         [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -24,6 +26,7 @@ const canvasPongpino = {
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
 
             // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -69,18 +72,25 @@ const canvasPongpino = {
     },
     start() {
         this.createbase()
-
+        this.generateTargets()
 
         this.setListeners()
 
-        setInterval(() => {
+        this.interval = setInterval(() => {
+            //this.framesCounter > 50 ? this.framesCounter = 0 : this.framesCounter++
+
             this.clearScreen()
+
             this.drawAll()
             this.box.move()
             this.colision()
-            this.generateTargets()
+            this.colisionBlock()
+            this.ballOut() ? this.gameOver() : null
 
-        }, 1000 / 90)
+
+
+
+        }, 1000 / 60)
     },
 
 
@@ -103,7 +113,7 @@ const canvasPongpino = {
 
 
     generateTargets() {
-
+        console.log("lo estoy repetando mas")
         let yTarget = (this.canvasSize.h / 2) - 200
         this.table.forEach((row) => {
             let xTarget = ((this.canvasSize.w / 2) - 350)
@@ -130,19 +140,7 @@ const canvasPongpino = {
 
 
     },
-    // createTargets() {
 
-    // this.table.[0]forEach(function (ele) {
-
-    //     let x = (this.canvasSize.w / 2) - 350
-
-    //     if (ele == 1) {
-    //         this.block + [ele] = new Block(this.ctx, x, (this.canvasSize.h / 2) - 250, 'block.png')
-    //         x += 50
-    //     }))
-
-
-    // },
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
     },
@@ -175,20 +173,20 @@ const canvasPongpino = {
         this.block3.draw()
         this.block4.draw()
         this.targets.forEach((ele) => ele.draw())
-
+        console.log("draw")
     },
 
     colision() {
 
 
         if (
-            (this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
-                this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
-                this.box.ballPos.x + this.box.ballSize.w < this.base1.base1Pos.x + this.base1.base1Size.w
+            (this.box.ballPos.y + this.box.ballSize.h >= this.base1.base1Pos.y &&
+                this.box.ballPos.x + this.box.ballSize.w >= this.base1.base1Pos.x &&
+                this.box.ballPos.x + this.box.ballSize.w <= this.base1.base1Pos.x + this.base1.base1Size.w
             ) ||
 
-            (this.box.ballPos.y < this.base3.base1Pos.y + this.base3.base1Size.h &&
-                this.box.ballPos.x + this.box.ballSize.w > this.base3.base1Pos.x &&
+            (this.box.ballPos.y <= this.base3.base1Pos.y + this.base3.base1Size.h &&
+                this.box.ballPos.x + this.box.ballSize.w >= this.base3.base1Pos.x &&
                 this.box.ballPos.x + this.box.ballSize.w < this.base3.base1Pos.x + this.base3.base1Size.w
             )
 
@@ -197,13 +195,13 @@ const canvasPongpino = {
             this.box.ballVel.y *= -1
         }
 
-        if ((this.box.ballPos.x < this.base2.base2Pos.x + this.base2.base2Size.w &&
-            this.box.ballPos.y + this.box.ballSize.h > this.base2.base2Pos.y &&
+        if ((this.box.ballPos.x <= this.base2.base2Pos.x + this.base2.base2Size.w &&
+            this.box.ballPos.y + this.box.ballSize.h >= this.base2.base2Pos.y &&
             this.box.ballPos.y + this.box.ballSize.h < this.base2.base2Pos.y + this.base2.base2Size.h
         ) ||
-            (this.box.ballPos.x + this.box.ballSize.w > this.base4.base2Pos.x &&
-                this.box.ballPos.y + this.box.ballSize.h > this.base4.base2Pos.y &&
-                this.box.ballPos.y < this.base4.base2Pos.y + this.base4.base2Size.h
+            (this.box.ballPos.x + this.box.ballSize.w >= this.base4.base2Pos.x &&
+                this.box.ballPos.y + this.box.ballSize.h >= this.base4.base2Pos.y &&
+                this.box.ballPos.y <= this.base4.base2Pos.y + this.base4.base2Size.h
             )
 
 
@@ -213,9 +211,46 @@ const canvasPongpino = {
             this.box.ballVel.x *= -1
 
         }
+    },
 
-        //------------------------------------------------------------------------
-        //             Colision bloques
+    // colisionTarget() {
+
+    //     return this.targets.some((obs) => {
+
+
+    //         if ((this.box.ballPos.x < this.obs.targetPos.x + this.obs.targetSize.w &&
+    //             this.box.ballPos.x + this.box.ballSize.w > this.obs.targetPos.x &&
+    //             this.box.ballPos.y + this.box.ballSize.h > this.obs.targetPos.y &&
+    //             this.box.ballPos.y < this.obs.targetPos.y + this.obs.targetSize.h) ||
+    //             (this.box.ballPos.x < this.obs.targetPos.x + this.obs.targetSize.w &&
+    //                 this.box.ballPos.x + this.box.ballSize.w > this.obs.targetPos.x &&
+    //                 this.box.ballPos.y + this.box.ballSize.h > this.obs.targetPos.y &&
+    //                 this.box.ballPos.y < this.obs.targetPos.y + this.obs.targetSize.h) ||
+
+    //             (this.box.ballPos.x < this.obs.targetPos.x + this.obs.targetSize.w &&
+    //                 this.box.ballPos.x + this.box.ballSize.w > this.obs.targetPos.x &&
+    //                 this.box.ballPos.y + this.box.ballSize.h > this.obs.targetPos.y &&
+    //                 this.box.ballPos.y < this.obs.targetPos.y + this.obs.targetSize.h) ||
+    //             (this.box.ballPos.x < this.obs.targetPos.x + this.obs.targetSize.w &&
+    //                 this.box.ballPos.x + this.box.ballSize.w > this.obs.targetPos.x &&
+    //                 this.box.ballPos.y + this.box.ballSize.h > this.obs.targetPos.y &&
+    //                 this.box.ballPos.y < this.obs.targetPos.y + this.obs.targetSize.h)
+
+    //         ) {
+
+    //             this.box.ballVel.x *= -1
+    //             this.box.ballVel.y *= -1
+
+
+    //         }
+    //     })
+
+
+
+    //------------------------------------------------------------------------
+    //             Colision bloques
+
+    colisionBlock() {
         if ((this.box.ballPos.x < this.block1.blockPos.x + this.block1.blockSize.w &&
             this.box.ballPos.x + this.box.ballSize.w > this.block1.blockPos.x &&
             this.box.ballPos.y + this.box.ballSize.h > this.block1.blockPos.y &&
@@ -241,6 +276,26 @@ const canvasPongpino = {
 
 
         }
+    },
+
+    ballOut() {
+        if (this.box.ballPos.x + this.box.ballSize.w < 0 || this.box.ballPos.y + this.box.ballSize.h < 0 || this.box.ballPos.x > this.canvasSize.w || this.box.ballPos.y > this.canvasSize.h) {
+            return true
+
+
+        }
+    },
+
+
+
+
+
+    gameOver() {
+
+
+        clearInterval(this.interval)
+
+
 
 
 
@@ -252,13 +307,6 @@ const canvasPongpino = {
 
 
 
+
+
 }
-
-//________________________________________________________________________________
-
-//Logica del if de las bases para la colisión
-/*         this.box.ballPos.x < this.base1.base1Pos.x + this.base1.base1Size.w &&
-           this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
-           this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
-           this.box.ballPos.y < this.base1.base1Pos.y + this.base1.baseSize.h*/
-//________________________________________________________________________________
