@@ -11,6 +11,7 @@ const canvasPongpino = {
     base2: undefined,
     base3: undefined,
     base4: undefined,
+    targets: [],
     box: [],
     block1: undefined,
     table:
@@ -33,7 +34,7 @@ const canvasPongpino = {
             // [4, 4, 5, 5, 6, 6, 6, 7, 7, 7, 7, 1, 1, 1],
         ],
 
-    target: [],
+
     canvasSize: { w: undefined, h: undefined },
     init() {
         this.setContext()
@@ -77,7 +78,7 @@ const canvasPongpino = {
             this.drawAll()
             this.box.move()
             this.colision()
-
+            this.generateTargets()
 
         }, 1000 / 90)
     },
@@ -93,22 +94,55 @@ const canvasPongpino = {
         this.block2 = new Block(this.ctx, (this.canvasSize.w / 2) - 400, (this.canvasSize.h / 2) + 200, 50, 50, 'block.png')
         this.block3 = new Block(this.ctx, (this.canvasSize.w / 2) + 350, (this.canvasSize.h / 2) - 250, 50, 50, 'block.png')
         this.block4 = new Block(this.ctx, (this.canvasSize.w / 2) + 350, (this.canvasSize.h / 2) + 200, 50, 50, 'block.png')
+        //this.target1 = new Target(this.ctx, (this.canvasSize.w / 2) - 350, (this.canvasSize.h / 2) - 200, 'block.png')
+
+
 
     },
 
-    createTargets() {
 
-        this.table.[0]forEach(function (ele) {
 
-            let x = (this.canvasSize.w / 2) - 350
+    generateTargets() {
 
-            if (ele == 1) {
-                this.block + [ele] = new Block(this.ctx, x, (this.canvasSize.h / 2) - 250, 'block.png')
-                x += 50
-            }))
+        let yTarget = (this.canvasSize.h / 2) - 200
+        this.table.forEach((row) => {
+            let xTarget = ((this.canvasSize.w / 2) - 350)
+
+            row.forEach((cell) => {
+
+
+
+                if (cell === 1) {
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block.png'))
+                    xTarget += 50
+
+                }
+
+            })
+            yTarget += 50
+
+
+        })
+
+
+
+
 
 
     },
+    // createTargets() {
+
+    // this.table.[0]forEach(function (ele) {
+
+    //     let x = (this.canvasSize.w / 2) - 350
+
+    //     if (ele == 1) {
+    //         this.block + [ele] = new Block(this.ctx, x, (this.canvasSize.h / 2) - 250, 'block.png')
+    //         x += 50
+    //     }))
+
+
+    // },
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
     },
@@ -140,6 +174,7 @@ const canvasPongpino = {
         this.block2.draw()
         this.block3.draw()
         this.block4.draw()
+        this.targets.forEach((ele) => ele.draw())
 
     },
 
@@ -210,7 +245,13 @@ const canvasPongpino = {
 
 
 
-    }
+    },
+
+
+
+
+
+
 }
 
 //________________________________________________________________________________

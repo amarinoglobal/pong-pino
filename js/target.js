@@ -1,6 +1,6 @@
 
 class Target {
-    constructor(ctx, targetPosX, targetPosY, canvasSize) {
+    constructor(ctx, targetPosX, targetPosY, targetImg, canvasSize) {
         this.ctx = ctx
         this.targetPos = { x: targetPosX, y: targetPosY }
         this.targetSize = { w: 50, h: 50 }
@@ -11,7 +11,7 @@ class Target {
     }
     init() {
         this.imageInstance = new Image()
-        this.imageInstance.src = `images/${this.baseImage}`
+        this.imageInstance.src = `images/${this.targetImage}`
 
 
     }
@@ -22,6 +22,99 @@ class Target {
     }
 }
 
+
+
+
+
+// tablero.forEach((fila) => {
+        //     fila.forEach(celdra)=> {
+        //         if (celda === 1) create new Target()
+        //         if (celda == 2) create new LifeTarget()
+        //     }
+        // })
+// class Random extends Target {
+//     constructor() {
+//         super()
+//     }
+//     getRandom() {
+//         if (
+//             this.box.ballPos.x < this.base1.base1Pos.x + this.base1.base1Size.w &&
+//             this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
+//             this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
+//             this.box.ballPos.y < this.base1.base1Pos.y + this.base1.baseSize.h
+//         ) {
+//             list.sort(() => Math.random() - 0.5)
+//         }
+//         // const shuffleArray = array => {
+//         //     for (let i = array.length - 1; i > 0; i--) {
+//         //         const j = Math.floor(Math.random() * (i + 1));
+//         //         const temp = array[i];
+//         //         array[i] = array[j];
+//         //         array[j] = temp;
+//         //     }
+//         // }
+//     }
+// }
+// class LessTime extends Target {
+//     constructor() {
+//         super()
+//     }
+//     lessTime() {
+//         if (
+//             this.box.ballPos.x < this.base1.base1Pos.x + this.base1.base1Size.w &&
+//             this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
+//             this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
+//             this.box.ballPos.y < this.base1.base1Pos.y + this.base1.baseSize.h
+//         ) {
+//             // 
+//         }
+//     }
+// }
+// class MoreTime extends Target {
+//     constructor() {
+//         super()
+//     }
+//     moreTime() {
+//         if (
+//             this.box.ballPos.x < this.base1.base1Pos.x + this.base1.base1Size.w &&
+//             this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
+//             this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
+//             this.box.ballPos.y < this.base1.base1Pos.y + this.base1.baseSize.h
+//         ) {
+//             // 
+//         }
+//     }
+// }
+// class MoreSpeed extends Target {
+//     constructor() {
+//         super()
+//     }
+//     moreSpeed() {
+//         if (
+//             this.box.ballPos.x < this.base1.base1Pos.x + this.base1.base1Size.w &&
+//             this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
+//             this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
+//             this.box.ballPos.y < this.base1.base1Pos.y + this.base1.baseSize.h
+//         ) {
+//             // 
+//         }
+//     }
+// }
+// class LessSpeed extends Target {
+//     constructor() {
+//         super()
+//     }
+//     lessSpeed() {
+//         if (
+//             this.box.ballPos.x < this.base1.base1Pos.x + this.base1.base1Size.w &&
+//             this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
+//             this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
+//             this.box.ballPos.y < this.base1.base1Pos.y + this.base1.baseSize.h
+//         ) {
+//             // 
+//         }
+//     }
+//---------------------------------------------//}
     // class TargetNormal extends Target{
     //     constructor(ctx, targetPosX, targetPosY, canvasSize,blockImg)
 
@@ -95,22 +188,3 @@ class Target {
 //     }
 // }
 
-// class Block {
-
-//     constructor(ctx, blockPosX, blockPosY, blockWidth, blockHeight, blockImg, canvasSize) {
-//         this.ctx = ctx
-//         this.blockPos = { x: blockPosX, y: blockPosY }
-//         this.blockSize = { w: blockWidth, h: blockHeight }
-//         this.blockImage = blockImg
-//         this.imageInstance = undefined
-//         this.canvasSize = canvasSize
-//         this.init()
-//     }
-//     init() {
-//         this.imageInstance = new Image()
-//         this.imageInstance.src = `images/${this.blockImage}`
-//     }
-//     draw() {
-//         this.ctx.drawImage(this.imageInstance, this.blockPos.x, this.blockPos.y, this.blockSize.w, this.blockSize.h)
-//     }
-// }

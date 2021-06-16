@@ -3,6 +3,28 @@ body {
   margin: 0;
   
 }
+
+#gameover{
+  position: absolute;
+  /* width : px;
+  height: px; */
+  background: rgba(0,0,0,0.5);
+  display: none;
+}
+#youwon{
+  position: absolute;
+    /*width: 300px;
+    top : px;
+    left : px; */
+    display: none;
+}
+#youlose{
+  position: absolute;
+    /* width:300px;
+    top: px;
+    left : px; */
+    display: none;
+}
 /* 
 .game-intro {
   float: left;

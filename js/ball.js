@@ -9,7 +9,7 @@ class Box {
         this.ballImage = ballImage
         this.imageInstance = undefined
         this.base1Pos = base1Pos
-        this.ballVel = { x: 0.3, y: 1 }
+        this.ballVel = { x: 2, y: 4 }
         this.ballPhysics = { gravity: 0 }
 
         this.init()
