@@ -12,6 +12,27 @@ const canvasPongpino = {
     base3: undefined,
     base4: undefined,
     box: [],
+    block1: undefined,
+    table:
+        [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+            // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            // [2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+            // [4, 4, 5, 5, 6, 6, 6, 7, 7, 7, 7, 1, 1, 1],
+        ],
+
     target: [],
     canvasSize: { w: undefined, h: undefined },
     init() {
@@ -67,7 +88,26 @@ const canvasPongpino = {
         this.base2 = new CreatorBase2(this.ctx, 20, (this.canvasSize.h / 2) - 65, 34, 130, 'base2.png')
         this.base3 = new CreatorBase1(this.ctx, (this.canvasSize.w / 2) - 65, 20, 130, 34, 'base3.png')
         this.base4 = new CreatorBase2(this.ctx, this.canvasSize.w - 65, (this.canvasSize.h / 2) - 65, 34, 130, 'base4.png')
-        this.box = new Box(this.ctx, 400, 30, 30, 30, this.canvasSize, 'ball.png')
+        this.box = new Box(this.ctx, (this.canvasSize.w / 2) + 350, 30, 30, 30, this.canvasSize, 'ball.png')
+        this.block1 = new Block(this.ctx, (this.canvasSize.w / 2) - 400, (this.canvasSize.h / 2) - 250, 50, 50, 'block.png')
+        this.block2 = new Block(this.ctx, (this.canvasSize.w / 2) - 400, (this.canvasSize.h / 2) + 200, 50, 50, 'block.png')
+        this.block3 = new Block(this.ctx, (this.canvasSize.w / 2) + 350, (this.canvasSize.h / 2) - 250, 50, 50, 'block.png')
+        this.block4 = new Block(this.ctx, (this.canvasSize.w / 2) + 350, (this.canvasSize.h / 2) + 200, 50, 50, 'block.png')
+
+    },
+
+    createTargets() {
+
+        this.table.[0]forEach(function (ele) {
+
+            let x = (this.canvasSize.w / 2) - 350
+
+            if (ele == 1) {
+                this.block + [ele] = new Block(this.ctx, x, (this.canvasSize.h / 2) - 250, 'block.png')
+                x += 50
+            }))
+
+
     },
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
@@ -96,6 +136,11 @@ const canvasPongpino = {
         this.base3.draw()
         this.base4.draw()
         this.box.draw()
+        this.block1.draw()
+        this.block2.draw()
+        this.block3.draw()
+        this.block4.draw()
+
     },
 
     colision() {
@@ -112,15 +157,8 @@ const canvasPongpino = {
                 this.box.ballPos.x + this.box.ballSize.w < this.base3.base1Pos.x + this.base3.base1Size.w
             )
 
-
-
-            // (this.box.ballPos.x + this.base3.base1Pos.x > this.base3.base1Pos.x &&
-            //     this.box.ballPos.y + this.box.ballSize.w > this.base3.base1Pos.y &&
-            //     this.box.ballPos.y < this.base3.basePos.y + this.base3.base1Size.w)
-
-
         ) {
-            console.log('colision')
+
             this.box.ballVel.y *= -1
         }
 
@@ -135,12 +173,42 @@ const canvasPongpino = {
 
 
         ) {
-            //this.ballPos.y >= this.canvasSize.h - this.ballSize.h ? this.ballVel.y *= -1 : null
-            //this.ballPos.x >= this.canvasSize.w - this.ballSize.w ? this.ballVel.x *= -1 : null
-            console.log('colision')
+
+
             this.box.ballVel.x *= -1
 
         }
+
+        //------------------------------------------------------------------------
+        //             Colision bloques
+        if ((this.box.ballPos.x < this.block1.blockPos.x + this.block1.blockSize.w &&
+            this.box.ballPos.x + this.box.ballSize.w > this.block1.blockPos.x &&
+            this.box.ballPos.y + this.box.ballSize.h > this.block1.blockPos.y &&
+            this.box.ballPos.y < this.block1.blockPos.y + this.block1.blockSize.h) ||
+            (this.box.ballPos.x < this.block2.blockPos.x + this.block2.blockSize.w &&
+                this.box.ballPos.x + this.box.ballSize.w > this.block2.blockPos.x &&
+                this.box.ballPos.y + this.box.ballSize.h > this.block2.blockPos.y &&
+                this.box.ballPos.y < this.block2.blockPos.y + this.block2.blockSize.h) ||
+
+            (this.box.ballPos.x < this.block3.blockPos.x + this.block3.blockSize.w &&
+                this.box.ballPos.x + this.box.ballSize.w > this.block3.blockPos.x &&
+                this.box.ballPos.y + this.box.ballSize.h > this.block3.blockPos.y &&
+                this.box.ballPos.y < this.block3.blockPos.y + this.block3.blockSize.h) ||
+            (this.box.ballPos.x < this.block4.blockPos.x + this.block4.blockSize.w &&
+                this.box.ballPos.x + this.box.ballSize.w > this.block4.blockPos.x &&
+                this.box.ballPos.y + this.box.ballSize.h > this.block4.blockPos.y &&
+                this.box.ballPos.y < this.block4.blockPos.y + this.block4.blockSize.h)
+
+        ) {
+
+            this.box.ballVel.x *= -1
+            this.box.ballVel.y *= -1
+
+
+        }
+
+
+
 
     }
 }
