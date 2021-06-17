@@ -15,17 +15,21 @@ const canvasPongpino = {
     box: [],
     block1: undefined,
     framesCounter: 0,
+    background: undefined,
+
+
     table:
 
+
         [
+            [1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1],
+            [1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 2, 1, 1],
+            [1, 1, 3, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
+            [1, 1, 1, 1, 3, 1, 1, 2, 1, 1, 3, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            [1, 1, 1, 2, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1]
 
 
             // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -38,11 +42,14 @@ const canvasPongpino = {
         ],
 
 
+
+
     canvasSize: { w: undefined, h: undefined },
     init() {
         this.setContext()
         this.setDimensions()
         this.start()
+
 
     },
     setContext() {
@@ -57,7 +64,9 @@ const canvasPongpino = {
         this.canvasDOM.setAttribute('height', this.canvasSize.h)
     },
     setListeners() {
-        document.onkeyup = e => {
+
+
+        document.onkeydown = e => {
             e.key === 'ArrowLeft' ? this.base1.moveLeft() : null
             e.key === 'ArrowRight' ? this.base1.moveRight() : null
             e.key === 'ArrowUp' ? this.base2.moveUp() : null
@@ -68,16 +77,19 @@ const canvasPongpino = {
             e.key === 'ArrowDown' ? this.base4.moveDown() : null
             e.key === 'Space' ? this.box.move() : null
             //document.onkeydown = e => e.code === this.keys.SPACE ? this.createBox() : null
+
         }
     },
     start() {
+        this.reset()
+        this.shuffle(this.table)
         this.createbase()
         this.generateTargets()
 
         this.setListeners()
 
         this.interval = setInterval(() => {
-            //this.framesCounter > 50 ? this.framesCounter = 0 : this.framesCounter++
+            this.framesCounter > 50 ? this.framesCounter = 0 : this.framesCounter++
 
             this.clearScreen()
 
@@ -90,9 +102,15 @@ const canvasPongpino = {
 
 
 
-        }, 1000 / 60)
+
+        }, 1000 / 100)
     },
 
+    reset() {
+        this.background = new Background(this.ctx, this.canvasSize.w, this.canvasSize.h, "./images/bg.png")
+
+
+    },
 
     createbase() {
         this.base1 = new CreatorBase1(this.ctx, (this.canvasSize.w / 2) - 65, this.canvasSize.h - 60, 130, 34, 'base1.png')
@@ -127,6 +145,37 @@ const canvasPongpino = {
                     xTarget += 50
 
                 }
+                if (cell === 2) {
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
+                    xTarget += 50
+
+                }
+                if (cell === 3) {
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block2.png'))
+                    xTarget += 50
+
+                }
+                if (cell === 4) {
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
+                    xTarget += 50
+
+                }
+                if (cell === 5) {
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
+                    xTarget += 50
+
+                }
+                if (cell === 6) {
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
+                    xTarget += 50
+
+
+                }
+                if (cell === 7) {
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
+                    xTarget += 50
+
+                }
 
             })
             yTarget += 50
@@ -147,8 +196,9 @@ const canvasPongpino = {
 
     drawAll() {
 
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(0, 0, this.canvasSize.w, this.canvasSize.h);
+        //this.ctx.fillStyle = "black";
+        //this.ctx.fillRect(0, 0, this.canvasSize.w, this.canvasSize.h);
+        this.background.draw()
         this.ctx.fillStyle = "gray";
         this.ctx.fillRect((this.canvasSize.w / 2) - 350, (this.canvasSize.h / 2) - 200, 700, 400);
         // this.ctx.fillStyle = "white";
@@ -211,6 +261,23 @@ const canvasPongpino = {
             this.box.ballVel.x *= -1
 
         }
+    },
+    shuffle(array) {
+        var currentIndex = array.length, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            // And swap it with the current element.
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
+        }
+
+        return array;
     },
 
     // colisionTarget() {

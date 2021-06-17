@@ -8,6 +8,8 @@ class CreatorBase1 {
         this.imageInstance = undefined
         this.canvasSize = canvasSize
         this.init()
+
+
     }
 
     init() {
@@ -23,14 +25,16 @@ class CreatorBase1 {
 
     moveLeft() {
 
-        this.base1Pos.x > 0 ? this.base1Pos.x -= 50 : this.base1Pos.x -= 0
+        this.base1Pos.x > 0 ? this.base1Pos.x -= 25 : this.base1Pos.x -= 0
 
     }
 
 
     moveRight() {
 
-        this.base1Pos.x < (canvasPongpino.canvasSize.w - 140) ? this.base1Pos.x += 50 : this.base1Pos.x += 0
+        this.base1Pos.x < (canvasPongpino.canvasSize.w - 140) ? this.base1Pos.x += 25 : this.base1Pos.x += 0
+
+
     }
 }
 
@@ -59,12 +63,12 @@ class CreatorBase2 {
 
     moveUp() {
 
-        this.base2Pos.y > 5 ? this.base2Pos.y -= 30 : this.base2Pos.y -= 0
+        this.base2Pos.y > 5 ? this.base2Pos.y -= 25 : this.base2Pos.y -= 0
 
     }
 
     moveDown() {
-        (this.base2Pos.y + 130) < canvasPongpino.canvasSize.h ? this.base2Pos.y += 30 : this.base2Pos.y -= 0
+        (this.base2Pos.y + 130) < canvasPongpino.canvasSize.h ? this.base2Pos.y += 25 : this.base2Pos.y -= 0
 
     }
 
