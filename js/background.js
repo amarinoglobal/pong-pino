@@ -4,13 +4,10 @@ class Background {
         this.ctx = ctx;
         this.width = w;
         this.height = h;
-
         this.image = new Image();
         this.image.src = imgSource;
-
         this.posX = 0;
         this.posY = 0;
-
         this.velX = 1;
     }
 
@@ -24,6 +21,7 @@ class Background {
         if (this.posX <= -this.width) {
             this.posX = 0;
         }
+
         this.posX -= this.velX;
     }
 }

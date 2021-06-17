@@ -5,23 +5,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Germania+One">
   <link rel="stylesheet" href="styles/style.css" />
   <title>Pong-pino</title>
 </head>
 
 <body>
-  <!-- <div class="game-intro">
-    <img src="./images/logo.png" alt="" class="logo-img" />
-    <br />
-    <button id="start-button">StartGame</button>
-    <p>Use the left and right arrow to control the car!</p>
-    <img src="./images/arrows.png" alt="" class="arrows-img" />
-  </div> -->
 
-  <!-- <div id="game-board"> -->
+  <div class="gameovernone">
+    <img src="images/youwon.png" alt="" class="youwon">
+    <img src="images/gameover.png" alt="" class="youlosenone">
+    <div id="restart">Play Again!</div>
+
+  </div>
+  <div id="startgame">
+    <!-- <img src="images/backgrounds.png" alt="" id="startgame2"> -->
+    <div id="start">Play</div>
+  </div>
+
   <canvas id="canvas"></canvas>
-  <!-- <canvas id="canvas"></canvas> -->
-  <!-- </div> -->
+  <script type="text/javascript" src="js/time.js"></script>
   <script type="text/javascript" src="js/background.js"></script>
   <script type="text/javascript" src="js/target.js"></script>
   <script type="text/javascript" src="js/base.js"></script>

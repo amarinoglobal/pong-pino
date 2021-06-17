@@ -16,55 +16,43 @@ const canvasPongpino = {
     block1: undefined,
     framesCounter: 0,
     background: undefined,
+    time: undefined,
 
 
     table:
-
-
         [
-            [1, 1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1],
-            [1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 2, 1, 1],
-            [1, 1, 3, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
-            [1, 1, 1, 1, 3, 1, 1, 2, 1, 1, 3, 1, 1, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 1, 1, 2, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1],
+            [1, 1, 5, 1, 2, 5, 1, 5, 1, 5, 1, 5, 1, 5],
+            [5, 2, 5, 1, 5, 1, 2, 5, 1, 5, 5, 2, 5, 2],
+            [5, 5, 5, 5, 2, 5, 3, 5, 3, 5, 1, 5, 2, 3],
+            [3, 3, 2, 3, 2, 7, 3, 3, 7, 3, 2, 3, 2, 3],
+            [1, 5, 1, 1, 3, 1, 1, 2, 1, 1, 3, 1, 1, 1],
+            [1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 2, 1, 2, 1, 6, 1, 1, 1, 3, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1]
-
-
-            // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            // [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            // [2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
-            // [4, 4, 5, 5, 6, 6, 6, 7, 7, 7, 7, 1, 1, 1],
         ],
 
-
-
-
     canvasSize: { w: undefined, h: undefined },
+
     init() {
         this.setContext()
         this.setDimensions()
         this.start()
-
-
     },
+
     setContext() {
         this.canvasDOM = document.querySelector('#canvas')
         this.ctx = this.canvasDOM.getContext('2d')
 
     },
+
     setDimensions() {
         this.canvasSize.w = window.innerWidth - 5
         this.canvasSize.h = window.innerHeight - 5
         this.canvasDOM.setAttribute('width', this.canvasSize.w)
         this.canvasDOM.setAttribute('height', this.canvasSize.h)
     },
-    setListeners() {
 
+    setListeners() {
 
         document.onkeydown = e => {
             e.key === 'ArrowLeft' ? this.base1.moveLeft() : null
@@ -75,42 +63,35 @@ const canvasPongpino = {
             e.key === 'ArrowRight' ? this.base3.moveRight() : null
             e.key === 'ArrowUp' ? this.base4.moveUp() : null
             e.key === 'ArrowDown' ? this.base4.moveDown() : null
-            e.key === 'Space' ? this.box.move() : null
-            //document.onkeydown = e => e.code === this.keys.SPACE ? this.createBox() : null
 
         }
+
     },
+
     start() {
-        this.reset()
+
         this.shuffle(this.table)
         this.createbase()
         this.generateTargets()
-
         this.setListeners()
 
         this.interval = setInterval(() => {
             this.framesCounter > 50 ? this.framesCounter = 0 : this.framesCounter++
-
             this.clearScreen()
-
             this.drawAll()
             this.box.move()
             this.colision()
             this.colisionBlock()
             this.ballOut() ? this.gameOver() : null
-
-
-
-
+            this.colisionTarget()
+            if (this.time.timeSeconds === 0) {
+                this.gameOver()
+            }
 
         }, 1000 / 100)
     },
 
-    reset() {
-        this.background = new Background(this.ctx, this.canvasSize.w, this.canvasSize.h, "./images/bg.png")
 
-
-    },
 
     createbase() {
         this.base1 = new CreatorBase1(this.ctx, (this.canvasSize.w / 2) - 65, this.canvasSize.h - 60, 130, 34, 'base1.png')
@@ -122,23 +103,20 @@ const canvasPongpino = {
         this.block2 = new Block(this.ctx, (this.canvasSize.w / 2) - 400, (this.canvasSize.h / 2) + 200, 50, 50, 'block.png')
         this.block3 = new Block(this.ctx, (this.canvasSize.w / 2) + 350, (this.canvasSize.h / 2) - 250, 50, 50, 'block.png')
         this.block4 = new Block(this.ctx, (this.canvasSize.w / 2) + 350, (this.canvasSize.h / 2) + 200, 50, 50, 'block.png')
-        //this.target1 = new Target(this.ctx, (this.canvasSize.w / 2) - 350, (this.canvasSize.h / 2) - 200, 'block.png')
-
-
-
+        this.background = new Background(this.ctx, this.canvasSize.w, this.canvasSize.h, "./images/bg.png")
+        this.time = new Time(this.ctx, this.canvasSize.w - 100, 100, 300)
+        this.time.createTime();
     },
 
 
-
     generateTargets() {
-        console.log("lo estoy repetando mas")
-        let yTarget = (this.canvasSize.h / 2) - 200
+
+        yTarget = (this.canvasSize.h / 2) - 200
+
         this.table.forEach((row) => {
-            let xTarget = ((this.canvasSize.w / 2) - 350)
+            xTarget = ((this.canvasSize.w / 2) - 350)
 
             row.forEach((cell) => {
-
-
 
                 if (cell === 1) {
                     this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block.png'))
@@ -156,12 +134,12 @@ const canvasPongpino = {
 
                 }
                 if (cell === 4) {
-                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'random.png'))
                     xTarget += 50
 
                 }
                 if (cell === 5) {
-                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
+                    this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block3.png'))
                     xTarget += 50
 
                 }
@@ -169,26 +147,17 @@ const canvasPongpino = {
                     this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
                     xTarget += 50
 
-
                 }
                 if (cell === 7) {
                     this.targets.push(new Target(this.ctx, xTarget, yTarget, 'block1.png'))
                     xTarget += 50
-
                 }
-
             })
+
             yTarget += 50
-
-
         })
-
-
-
-
-
-
     },
+
 
     clearScreen() {
         this.ctx.clearRect(0, 0, this.canvasSize.w, this.canvasSize.h)
@@ -196,23 +165,7 @@ const canvasPongpino = {
 
     drawAll() {
 
-        //this.ctx.fillStyle = "black";
-        //this.ctx.fillRect(0, 0, this.canvasSize.w, this.canvasSize.h);
         this.background.draw()
-        this.ctx.fillStyle = "gray";
-        this.ctx.fillRect((this.canvasSize.w / 2) - 350, (this.canvasSize.h / 2) - 200, 700, 400);
-        // this.ctx.fillStyle = "white";
-        // this.ctx.fillRect(60, 0, 10, 700);
-        // this.ctx.fillRect(430, 0, 10, 700);
-
-        // this.ctx.beginPath();
-
-        // this.ctx.lineWidth = 10
-        // this.ctx.strokeStyle = 'white';
-        // this.ctx.setLineDash([30, 30]);
-        // this.ctx.moveTo(250, 700);
-        // this.ctx.lineTo(250, 0);
-        // this.ctx.stroke();
         this.base1.draw()
         this.base2.draw()
         this.base3.draw()
@@ -223,26 +176,22 @@ const canvasPongpino = {
         this.block3.draw()
         this.block4.draw()
         this.targets.forEach((ele) => ele.draw())
-        console.log("draw")
+        this.time.draw()
     },
 
     colision() {
-
 
         if (
             (this.box.ballPos.y + this.box.ballSize.h >= this.base1.base1Pos.y &&
                 this.box.ballPos.x + this.box.ballSize.w >= this.base1.base1Pos.x &&
                 this.box.ballPos.x + this.box.ballSize.w <= this.base1.base1Pos.x + this.base1.base1Size.w
             ) ||
-
             (this.box.ballPos.y <= this.base3.base1Pos.y + this.base3.base1Size.h &&
                 this.box.ballPos.x + this.box.ballSize.w >= this.base3.base1Pos.x &&
-                this.box.ballPos.x + this.box.ballSize.w < this.base3.base1Pos.x + this.base3.base1Size.w
-            )
-
-        ) {
+                this.box.ballPos.x + this.box.ballSize.w < this.base3.base1Pos.x + this.base3.base1Size.w)) {
 
             this.box.ballVel.y *= -1
+
         }
 
         if ((this.box.ballPos.x <= this.base2.base2Pos.x + this.base2.base2Size.w &&
@@ -251,71 +200,63 @@ const canvasPongpino = {
         ) ||
             (this.box.ballPos.x + this.box.ballSize.w >= this.base4.base2Pos.x &&
                 this.box.ballPos.y + this.box.ballSize.h >= this.base4.base2Pos.y &&
-                this.box.ballPos.y <= this.base4.base2Pos.y + this.base4.base2Size.h
-            )
-
-
-        ) {
-
+                this.box.ballPos.y <= this.base4.base2Pos.y + this.base4.base2Size.h)) {
 
             this.box.ballVel.x *= -1
 
         }
     },
+
     shuffle(array) {
         var currentIndex = array.length, randomIndex;
 
-        // While there remain elements to shuffle...
         while (0 !== currentIndex) {
 
-            // Pick a remaining element...
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex--;
 
-            // And swap it with the current element.
             [array[currentIndex], array[randomIndex]] = [
                 array[randomIndex], array[currentIndex]];
         }
-
         return array;
     },
 
-    // colisionTarget() {
+    colisionTarget() {
 
-    //     return this.targets.some((obs) => {
+        return this.targets.some((obs, idx) => {
 
+            if (this.box.ballPos.x < obs.targetPos.x + obs.targetSize.w &&
+                this.box.ballPos.x + this.box.ballSize.w > obs.targetPos.x &&
+                this.box.ballPos.y + this.box.ballSize.h > obs.targetPos.y &&
+                this.box.ballPos.y < obs.targetPos.y + obs.targetSize.h) {
 
-    //         if ((this.box.ballPos.x < this.obs.targetPos.x + this.obs.targetSize.w &&
-    //             this.box.ballPos.x + this.box.ballSize.w > this.obs.targetPos.x &&
-    //             this.box.ballPos.y + this.box.ballSize.h > this.obs.targetPos.y &&
-    //             this.box.ballPos.y < this.obs.targetPos.y + this.obs.targetSize.h) ||
-    //             (this.box.ballPos.x < this.obs.targetPos.x + this.obs.targetSize.w &&
-    //                 this.box.ballPos.x + this.box.ballSize.w > this.obs.targetPos.x &&
-    //                 this.box.ballPos.y + this.box.ballSize.h > this.obs.targetPos.y &&
-    //                 this.box.ballPos.y < this.obs.targetPos.y + this.obs.targetSize.h) ||
-
-    //             (this.box.ballPos.x < this.obs.targetPos.x + this.obs.targetSize.w &&
-    //                 this.box.ballPos.x + this.box.ballSize.w > this.obs.targetPos.x &&
-    //                 this.box.ballPos.y + this.box.ballSize.h > this.obs.targetPos.y &&
-    //                 this.box.ballPos.y < this.obs.targetPos.y + this.obs.targetSize.h) ||
-    //             (this.box.ballPos.x < this.obs.targetPos.x + this.obs.targetSize.w &&
-    //                 this.box.ballPos.x + this.box.ballSize.w > this.obs.targetPos.x &&
-    //                 this.box.ballPos.y + this.box.ballSize.h > this.obs.targetPos.y &&
-    //                 this.box.ballPos.y < this.obs.targetPos.y + this.obs.targetSize.h)
-
-    //         ) {
-
-    //             this.box.ballVel.x *= -1
-    //             this.box.ballVel.y *= -1
-
-
-    //         }
-    //     })
+                this.box.ballVel.x *= -1
+                this.box.ballVel.y *= -1
 
 
 
-    //------------------------------------------------------------------------
-    //             Colision bloques
+
+                if (this.targets[idx].targetImage === 'block1.png') {
+                    this.time.timeSeconds -= 50
+                }
+                if (this.targets[idx].targetImage === 'block.png') {
+                    this.time.timeSeconds += 50
+                }
+                if (this.targets[idx].targetImage === 'block3.png') {
+                    this.box.ballVel.y = 0.1
+                }
+                if (this.targets[idx].targetImage === 'block2.png') {
+                    this.box.ballVel.y = 2
+                }
+                if (this.targets[idx].targetImage === 'block3.png') {
+
+                    this.targets[idx].targetImage = 'block1.png'
+                }
+                this.targets.splice(idx, 1)
+            }
+        })
+    },
+
 
     colisionBlock() {
         if ((this.box.ballPos.x < this.block1.blockPos.x + this.block1.blockSize.w &&
@@ -340,40 +281,33 @@ const canvasPongpino = {
 
             this.box.ballVel.x *= -1
             this.box.ballVel.y *= -1
-
-
         }
     },
 
     ballOut() {
-        if (this.box.ballPos.x + this.box.ballSize.w < 0 || this.box.ballPos.y + this.box.ballSize.h < 0 || this.box.ballPos.x > this.canvasSize.w || this.box.ballPos.y > this.canvasSize.h) {
+        if (this.box.ballPos.x + this.box.ballSize.w < 0 ||
+            this.box.ballPos.y + this.box.ballSize.h < 0 ||
+            this.box.ballPos.x > this.canvasSize.w ||
+            this.box.ballPos.y > this.canvasSize.h) {
             return true
-
-
         }
     },
 
-
-
-
-
     gameOver() {
 
+        gameover = document.querySelector(".gameovernone"),
+            youlose = document.querySelector(".youlosenone"),
 
-        clearInterval(this.interval)
+            clearInterval(this.interval)
 
+        youlose.classList.replace("youlosenone", "youlose")
+        gameover.classList.replace("gameovernone", "gameover")
 
+        restart.addEventListener("click", function () {
 
-
-
+            location.reload();
+        })
 
     },
-
-
-
-
-
-
-
 
 }
