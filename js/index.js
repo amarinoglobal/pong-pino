@@ -9,6 +9,7 @@ window.onload = () => {
         document.getElementById('start').id = 'startnone';
         document.getElementById('startgame').id = 'startgamenone';
 
+
         canvasPongpino.init();
     };
 

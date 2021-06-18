@@ -69,7 +69,7 @@ const canvasPongpino = {
     },
 
     start() {
-
+        sound.play()
         this.shuffle(this.table)
         this.createbase()
         this.generateTargets()
@@ -187,11 +187,11 @@ const canvasPongpino = {
         if (
             (this.box.ballPos.y + this.box.ballSize.h > this.base1.base1Pos.y &&
                 this.box.ballPos.x + this.box.ballSize.w > this.base1.base1Pos.x &&
-                this.box.ballPos.x + this.box.ballSize.w < this.base1.base1Pos.x + this.base1.base1Size.w
+                this.box.ballPos.x < this.base1.base1Pos.x + this.base1.base1Size.w
             ) ||
             (this.box.ballPos.y < this.base3.base1Pos.y + this.base3.base1Size.h &&
                 this.box.ballPos.x + this.box.ballSize.w > this.base3.base1Pos.x &&
-                this.box.ballPos.x + this.box.ballSize.w < this.base3.base1Pos.x + this.base3.base1Size.w)) {
+                this.box.ballPos.x < this.base3.base1Pos.x + this.base3.base1Size.w)) {
 
             this.box.ballVel.y *= -1
 
@@ -199,7 +199,7 @@ const canvasPongpino = {
 
         if ((this.box.ballPos.x < this.base2.base2Pos.x + this.base2.base2Size.w &&
             this.box.ballPos.y + this.box.ballSize.h > this.base2.base2Pos.y &&
-            this.box.ballPos.y + this.box.ballSize.h < this.base2.base2Pos.y + this.base2.base2Size.h
+            this.box.ballPos.y < this.base2.base2Pos.y + this.base2.base2Size.h
         ) ||
             (this.box.ballPos.x + this.box.ballSize.w > this.base4.base2Pos.x &&
                 this.box.ballPos.y + this.box.ballSize.h > this.base4.base2Pos.y &&
