@@ -3,7 +3,7 @@ class Target {
     constructor(ctx, targetPosX, targetPosY, targetImg, canvasSize) {
         this.ctx = ctx
         this.targetPos = { x: targetPosX, y: targetPosY }
-        this.targetSize = { w: 50, h: 50 }
+        this.targetSize = { w: 60, h: 60 }
         this.targetImage = targetImg
         this.imageInstance = undefined
         this.canvasSize = canvasSize
